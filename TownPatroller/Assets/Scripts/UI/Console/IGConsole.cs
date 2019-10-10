@@ -4,7 +4,6 @@ using TownPatroller.Console;
 public class IGConsole : MonoBehaviour
 {
     public static IGConsole Instance { get; set; }
-    public GameObject MainConsoleContent;
     public InGameConsole Main;
 
     private void Awake()
@@ -12,10 +11,13 @@ public class IGConsole : MonoBehaviour
         Instance = this;
     }
 
-    public void Init()
+    public void Init(GameObject UILinker)
     {
-        MainConsoleContent = GameObject.Find("MainConsoleContent");
+        Main = UILinker.GetComponent<InGameConsole>();
+    }
 
-        Main = MainConsoleContent.GetComponent<InGameConsole>();
+    public void println(string msg)
+    {
+        Main.println(msg);
     }
 }

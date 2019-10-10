@@ -3,38 +3,39 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CarStatusUI : MonoBehaviour
+public class CarStatusUI
 {
-    public GameObject FRLED;
-    public GameObject FLLED;
-    public GameObject BRLED;
-    public GameObject BLLED;
+    private GameObject FRLED;
+    private GameObject FLLED;
+    private GameObject BRLED;
+    private GameObject BLLED;
 
-    public Text RMtext;
-    public Text LMtext;
-    public Text FDStext;
-    public Text FLHStext;
-    public Text FRHStext;
-    public Text LDStext;
-    public Text RDStext;
+    private Text RMtext;
+    private Text LMtext;
+    private Text FDStext;
+    private Text FLHStext;
+    private Text FRHStext;
+    private Text LDStext;
+    private Text RDStext;
 
     private static string[] CarStatusNum0TO1000 = new string[1002];
     private static string[] CarStatusNumm255TOm0 = new string[257];
 
-    void Start()
+    public CarStatusUI(GameObject _FRLED, GameObject _FLLED, GameObject _BRLED, GameObject _BLLED, 
+        Text _RMtext, Text _LMtext, Text _FDStext, Text _FLHStext, Text _FRHStext, Text _LDStext, Text _RDStext)
     {
-        FRLED = GameObject.Find("FRLED");
-        FLLED = GameObject.Find("FLLED");
-        BRLED = GameObject.Find("BRLED");
-        BLLED = GameObject.Find("BLLED");
+        FRLED = _FRLED;
+        FLLED = _FLLED;
+        BRLED = _BRLED;
+        BLLED = _BLLED;
 
-        RMtext = GameObject.Find("RMtext").GetComponent<Text>();
-        LMtext = GameObject.Find("LMtext").GetComponent<Text>();
-        FDStext = GameObject.Find("FDStext").GetComponent<Text>();
-        FLHStext = GameObject.Find("FLHStext").GetComponent<Text>();
-        FRHStext = GameObject.Find("FRHStext").GetComponent<Text>();
-        LDStext = GameObject.Find("LDStext").GetComponent<Text>();
-        RDStext = GameObject.Find("RDStext").GetComponent<Text>();
+        RMtext = _RMtext;
+        LMtext = _LMtext;
+        FDStext = _FDStext;
+        FLHStext = _FLHStext;
+        FRHStext = _FRHStext;
+        LDStext = _LDStext;
+        RDStext = _RDStext;
 
         InitStatusNum();
         InitLED();
