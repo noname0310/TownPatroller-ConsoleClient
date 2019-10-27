@@ -1,7 +1,7 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using TPPacket.Class;
 
 public class CarStatusUI
 {
@@ -38,8 +38,6 @@ public class CarStatusUI
         RDStext = _RDStext;
 
         InitStatusNum();
-        InitLED();
-        InitTexts();
     }
 
     private void InitStatusNum()
@@ -59,31 +57,9 @@ public class CarStatusUI
         CarStatusNumm255TOm0[0] = "MERR";
     }
 
-    private void InitTexts()
+    public void SetStatus(Cardevice cardevice, GPSPosition gPSPosition, float rotation)
     {
-        foreach (var item in this.GetType().GetFields())
-        {
-            if(item.FieldType == typeof(Text))
-            {
-                SetText(item, 0);
-            }
-        }
-    }
 
-    private void SetText(FieldInfo textobj, int value)
-    {
-        if (0 <= value)
-        {
-            if (1000 < value)
-                value = 1001;
-            (textobj.GetValue(this) as Text).text = CarStatusNum0TO1000[value];
-        }
-        else
-        {
-            if (value < -255)
-                value = -256;
-            (textobj.GetValue(this) as Text).text = CarStatusNumm255TOm0[value + 256];
-        }
     }
 
     public void SetText(string textobj, int value)
@@ -101,14 +77,6 @@ public class CarStatusUI
             if (value < -255)
                 value = -256;
             (fieldInfo.GetValue(this) as Text).text = CarStatusNumm255TOm0[value + 256];
-        }
-    }
-
-    private void InitLED()
-    {
-        foreach (LEDtype item in Enum.GetValues(typeof(LEDtype)))
-        {
-            ChangeLEDStatus(item, false);
         }
     }
 

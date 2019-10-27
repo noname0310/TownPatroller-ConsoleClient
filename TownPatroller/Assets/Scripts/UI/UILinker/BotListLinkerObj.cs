@@ -10,12 +10,13 @@ public class BotListLinkerObj : MonoBehaviour
 {
     public Button DisconnectButton;
     public Button RefreshButton;
-    public SocketLinkerObj SocketLinkerObj;
+
+    private SocketLinkerObj SocketLinkerObj;
 
     private void Start()
     {
-        Refresh();
         SocketLinkerObj = GameObject.Find("SocketManager").GetComponent<SocketLinkerObj>();
+        Refresh();
         DisconnectButton.onClick.AddListener(Disconnect);
         RefreshButton.onClick.AddListener(Refresh);
     }

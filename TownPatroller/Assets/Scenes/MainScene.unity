@@ -1387,7 +1387,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hide UI
+  m_Text: Switch Cam
 --- !u!222 &158966829
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1440,6 +1440,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CoreLinker: {fileID: 1048446371}
+  camtexture: {fileID: 161460389}
   socketObj: {fileID: 0}
 --- !u!1 &161460385
 GameObject:
@@ -5869,6 +5870,9 @@ GameObject:
   - component: {fileID: 1048446373}
   - component: {fileID: 1048446372}
   - component: {fileID: 1048446374}
+  - component: {fileID: 1048446376}
+  - component: {fileID: 1048446375}
+  - component: {fileID: 1048446377}
   m_Layer: 0
   m_Name: UILinkManager
   m_TagString: Untagged
@@ -5924,7 +5928,65 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisconnectButton: {fileID: 1259807921}
   RefreshButton: {fileID: 705982097}
-  SocketLinkerObj: {fileID: 159567642}
+--- !u!114 &1048446375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048446371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1f9b4f9ab0cf5f48ae18d7c547646d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Botlist: {fileID: 1851323583}
+  Console: {fileID: 540120297}
+  LocationList: {fileID: 429456867}
+--- !u!114 &1048446376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048446371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8de9db1a933fcab4d8351c93f797da32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BackToList: {fileID: 1096458874}
+  EditAutoDrive: {fileID: 1965610398}
+  SwitchDriveMode: {fileID: 965162408}
+  AddCurrentPosition: {fileID: 1590548435}
+  SwitchCam: {fileID: 1958812852}
+  HideUI: {fileID: 339365568}
+--- !u!114 &1048446377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048446371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67454be2824ef7d4b999a0e102e7ec53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FRLED: {fileID: 338394220}
+  FLLED: {fileID: 1866543033}
+  BRLED: {fileID: 821331057}
+  BLLED: {fileID: 1571628653}
+  RMtext: {fileID: 1214055919}
+  LMtext: {fileID: 1685374548}
+  FDStext: {fileID: 1839387233}
+  FLHStext: {fileID: 1796688096}
+  FRHStext: {fileID: 1195293986}
+  LDStext: {fileID: 1197854843}
+  RDStext: {fileID: 1628248049}
+  Longitude: {fileID: 1992457640}
+  Latitude: {fileID: 669374729}
+  Compass: {fileID: 1755835301}
 --- !u!1 &1049634405
 GameObject:
   m_ObjectHideFlags: 0
