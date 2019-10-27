@@ -9,6 +9,7 @@ public class PosItemLinkerObj : MonoBehaviour
     public Text Name;
     public Text Position;
     public GameObject HighLight;
+    public Button DeleteButton;
 
     private CoreLinkerObj linkerObj;
 
@@ -16,11 +17,7 @@ public class PosItemLinkerObj : MonoBehaviour
     {
         HighLight.SetActive(false);
         linkerObj = GameObject.Find("UILinkManager").GetComponent<CoreLinkerObj>();
-    }
-
-    public void OnDeleteBtnClicked()
-    {
-        linkerObj.OnButtonEvent(ButtonType.PositionListObj_DeleteButton);
+        linkerObj.RegisterObj(this);
     }
 
     public void SetDisplayPosition(GPSPosition gPSPosition)

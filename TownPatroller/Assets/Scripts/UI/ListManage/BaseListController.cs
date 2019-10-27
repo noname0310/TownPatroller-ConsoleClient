@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace TownPatroller.UI.ListManage
 {
-    class BaseListController : MonoBehaviour
+    public abstract class BaseListController : MonoBehaviour
     {
-        private readonly GameObject ContentObj;
-        private readonly GameObject ObjectPrefab;
-        private readonly float PrefabHeight;
-        private const int BetweenSpace = 1;
+        public GameObject ContentObj { get; private set; }
+        public GameObject ObjectPrefab { get; private set; }
+        public float PrefabHeight { get; private set; }
+        private const int BetweenSpace = 20;
         private const int startpos = -300;
 
 
-        public BaseListController(GameObject _ContentObj, GameObject Prefab)
+        public void New(GameObject _ContentObj, GameObject Prefab)
         {
             ContentObj = _ContentObj;
             ObjectPrefab = Prefab;
@@ -26,10 +21,15 @@ namespace TownPatroller.UI.ListManage
         protected GameObject AddItemAt(int index)
         {
             GameObject item = Instantiate(ObjectPrefab, ContentObj.transform);
-            float CreateYPos = startpos + (PrefabHeight * index) + (BetweenSpace * index);
+            float CreateYPos = startpos - (PrefabHeight * index) - (BetweenSpace * index);
             item.transform.localPosition = new Vector3(item.transform.localPosition.x, CreateYPos, item.transform.localPosition.z);
 
             return item;
+        }
+
+        protected void SetContentHeight(int itemcount)
+        {
+            ContentObj.GetComponent<RectTransform>().sizeDelta = new Vector2(ContentObj.GetComponent<RectTransform>().sizeDelta.x, - startpos + (itemcount * (PrefabHeight + BetweenSpace)));
         }
 
         protected void DeleteChildObject()

@@ -252,6 +252,7 @@ MonoBehaviour:
   Name: {fileID: 119318266}
   Position: {fileID: 167097296}
   HighLight: {fileID: 1236148437007717705}
+  DeleteButton: {fileID: 1749074317}
 --- !u!1 &1749074315
 GameObject:
   m_ObjectHideFlags: 0

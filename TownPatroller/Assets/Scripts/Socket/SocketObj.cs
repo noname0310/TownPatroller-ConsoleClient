@@ -51,7 +51,7 @@ public class SocketObj : MonoBehaviour
             packetReceiver = new PacketReciver(ID);
             packetReceiver.OnDataInvoke += PacketReceiver_OnDataInvoke;
             PrintStatusLabel("Connection Pending");
-            socketClient.SendInitPacket(new ConnectionPacket(true, ID, true));
+            socketClient.SendInitPacket(new ConnectionPacket(true, ID, false));
         }
         else
         {
@@ -79,9 +79,9 @@ public class SocketObj : MonoBehaviour
         task.Start();
     }
 
-    private void QuitClient()
+    public void QuitClient()
     {
-        socketClient.SendPacket(new ConnectionPacket(false, ID, true));
+        socketClient.SendPacket(new ConnectionPacket(false, ID, false));
         socketClient.Stop();
     }
 

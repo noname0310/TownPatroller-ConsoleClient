@@ -8,21 +8,17 @@ using TPPacket.Class;
 
 namespace TownPatroller.UI.ListManage
 {
-    class PositionListController : BaseListController
+    public class PositionListController : BaseListController
     {
-        public PositionListController(GameObject _ContentObj, GameObject Prefab) : base(_ContentObj, Prefab)
-        {
-
-        }
-
         public void RanderList(GPSSpotManager gPSSpotManager, int HighlightIndex)
         {
             DeleteChildObject();
+            SetContentHeight(gPSSpotManager.GPSPositions.Count);
 
             for (int i = 0; i < gPSSpotManager.GPSPositions.Count; i++)
             {
                 GameObject go = AddItemAt(i);
-                //go.GetComponent<PosItemLinkerObj>().Name = gPSSpotManager;//////////////////////////////////////////////////////////////////////////
+                go.GetComponent<PosItemLinkerObj>().Name.text = gPSSpotManager.GPSPositions[i].LocationName;
                 go.GetComponent<PosItemLinkerObj>().SetDisplayPosition(gPSSpotManager.GPSPositions[i]);
                 if (i == HighlightIndex)
                     go.GetComponent<PosItemLinkerObj>().HighLight.SetActive(true);
