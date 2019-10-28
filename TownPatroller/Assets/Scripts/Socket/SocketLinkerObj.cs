@@ -36,8 +36,6 @@ public class SocketLinkerObj : MonoBehaviour
     {
         switch (basePacket.packetType)
         {
-            case PacketType.ConnectionStat:
-                break;
             case PacketType.CamFrame:
                 CamPacket camPacket = (CamPacket)basePacket;
 
@@ -45,18 +43,22 @@ public class SocketLinkerObj : MonoBehaviour
                 camtexture.texture = TextureConverter.Base64ToTexture2D(camPacket.CamFrame);
                 if (ttexture != null)
                     Destroy(ttexture);
+                clientSender.SendPacket(new CamPacketRecived());
                 break;
             case PacketType.CamConfig:
                 break;
             case PacketType.CarStatus:
                 CarStatusPacket csp = (CarStatusPacket)basePacket;
-                CoreLinker.GetComponent<CarStatusUIObj>().CarStatusUI.SetStatus(csp.cardevice, csp.position, csp.rotation);
+                CoreLinker.GetComponent<CarStatusUIObj>().CarDevice.SetStatus(csp.cardevice, csp.position, csp.rotation);
+                clientSender.SendPacket(new CarStatusRecivedPacket());
                 break;
             case PacketType.CarGPSSpotStatus:
                 break;
             case PacketType.CarGPSSpotStatusChanged:
                 break;
             case PacketType.UpdateDataChanged:
+                DataUpdatedPacket dup = (DataUpdatedPacket)basePacket;
+                CoreLinker.GetComponent<CarStatusUIObj>().CarDevice.modeType = dup.modeType;
                 break;
             case PacketType.UpdateConsoleModeChanged:
                 ConsoleUpdatedPacket cudp = (ConsoleUpdatedPacket)basePacket;

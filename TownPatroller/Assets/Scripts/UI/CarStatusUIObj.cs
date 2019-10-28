@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using TownPatroller.UI;
 
 public class CarStatusUIObj : MonoBehaviour
 {
@@ -21,12 +20,15 @@ public class CarStatusUIObj : MonoBehaviour
     public Text Longitude;
     public Text Latitude;
 
+    public Text CompassT;
     public GameObject Compass;
 
-    public CarStatusUI CarStatusUI;
+    public Text DriveMode;
+
+    public CarDevice CarDevice;
 
     void Start()
     {
-        CarStatusUI = new CarStatusUI(FRLED, FLLED, BRLED, BLLED, RMtext, LMtext, FDStext, FLHStext, FRHStext, LDStext, RDStext);
+        CarDevice = new CarDevice(this);
     }
 }

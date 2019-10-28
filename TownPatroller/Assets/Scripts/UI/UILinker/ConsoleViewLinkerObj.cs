@@ -43,7 +43,7 @@ public class ConsoleViewLinkerObj : MonoBehaviour
 
     private void SwitchDriveModeE()
     {
-
+        SocketLinkerObj.clientSender.SendPacket(new DataUpdatePacket(gameObject.GetComponent<CarStatusUIObj>().CarDevice.modeType.Next()));
     }
 
     private void AddCurrentPositionE()
@@ -53,11 +53,11 @@ public class ConsoleViewLinkerObj : MonoBehaviour
 
     private void SwitchCamE()
     {
-
+        SocketLinkerObj.clientSender.SendPacket(new CamConfigPacket(CamaraConfigType.ChangeCamara, true));
     }
 
     private void HideUIE()
     {
-
+        throw new System.NotImplementedException();
     }
 }
