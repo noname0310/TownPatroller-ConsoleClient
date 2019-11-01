@@ -10,20 +10,26 @@ public class LocationListLinkerObj : MonoBehaviour
 
     public GameObject AddPosPanel;
     public InputField Name;
-    public Button SetCurrentPosition;
+    public Button SetCurrentPositionButton;
     public InputField Latitude;
     public InputField Longitude;
-    public Button AddPosition;
-    public Button Close;
+    public Button AddPositionButton;
+    public Button CloseButton;
 
     private SocketLinkerObj SocketLinkerObj;
+    CarStatusUIObj CarStatusUIObj;
 
     void Start()
     {
         SocketLinkerObj = GameObject.Find("SocketManager").GetComponent<SocketLinkerObj>();
+        CarStatusUIObj = gameObject.GetComponent<CarStatusUIObj>();
 
         BackToCamButton.onClick.AddListener(BackToCam);
-        AddItemButton.onClick.AddListener(AddItem);
+        AddItemButton.onClick.AddListener(OpenAddItemView);
+
+        SetCurrentPositionButton.onClick.AddListener(SetCurrentPosition);
+        AddPositionButton.onClick.AddListener(AddPosition);
+        CloseButton.onClick.AddListener(Close);
     }
 
     private void BackToCam()
@@ -31,8 +37,28 @@ public class LocationListLinkerObj : MonoBehaviour
         ViewChanger.Instance.ChangeView(ViewChanger.ConsoleView.Console);
     }
 
-    private void AddItem()
+    private void OpenAddItemView()
+    {
+        Name.text = "";
+        Latitude.text = "";
+        Longitude.text = "";
+
+        AddPosPanel.SetActive(true);
+    }
+
+    private void SetCurrentPosition()
+    {
+        Latitude.text = CarStatusUIObj.CarDevice.gPSPosition.latitude.ToString();
+        Longitude.text = CarStatusUIObj.CarDevice.gPSPosition.longitude.ToString();
+    }
+
+    private void AddPosition()
     {
 
+    }
+
+    private void Close()
+    {
+        AddPosPanel.SetActive(false);
     }
 }

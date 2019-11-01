@@ -10,7 +10,7 @@ namespace TownPatroller.UI.ListManage
 {
     public class PositionListController : BaseListController
     {
-        public void RanderList(GPSSpotManager gPSSpotManager, int HighlightIndex)
+        public void RanderList(GPSSpotManager gPSSpotManager)
         {
             DeleteChildObject();
             SetContentHeight(gPSSpotManager.GPSPositions.Count);
@@ -20,7 +20,7 @@ namespace TownPatroller.UI.ListManage
                 GameObject go = AddItemAt(i);
                 go.GetComponent<PosItemLinkerObj>().Name.text = gPSSpotManager.GPSPositions[i].LocationName;
                 go.GetComponent<PosItemLinkerObj>().SetDisplayPosition(gPSSpotManager.GPSPositions[i]);
-                if (i == HighlightIndex)
+                if (i == gPSSpotManager.CurrentMovePosIndex)
                     go.GetComponent<PosItemLinkerObj>().HighLight.SetActive(true);
             }
         }

@@ -12,6 +12,7 @@ public class CoreLinkerObj : MonoBehaviour
     public PositionListController PositionListController;
 
     public GameObject ClientsContentObj;
+    public GameObject PositionsContentObj;
 
     public GameObject ClientItemPrefab;
     public GameObject PositionItemPrefab;
@@ -25,6 +26,15 @@ public class CoreLinkerObj : MonoBehaviour
 
         ClientsListController = gameObject.AddComponent<ClientsListController>();
         ClientsListController.New(ClientsContentObj, ClientItemPrefab);
+
+        PositionListController = gameObject.AddComponent<PositionListController>();
+        PositionListController.New(PositionsContentObj, PositionItemPrefab);
+
+        TPPacket.Class.GPSSpotManager gPSSpotManager = new TPPacket.Class.GPSSpotManager(0);
+        gPSSpotManager.AddPos(new TPPacket.Class.GPSPosition("djskda", -100, 100));
+        gPSSpotManager.AddPos(new TPPacket.Class.GPSPosition("sadsakd", 1221, 312));
+
+        PositionListController.RanderList(gPSSpotManager);
     }
 
     public void RegisterObj(ClientItemLinkerObj clientItemLinkerObj)
