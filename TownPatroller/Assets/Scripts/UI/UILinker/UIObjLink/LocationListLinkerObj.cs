@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TPPacket.Packet;
+using TPPacket.Class;
 
 public class LocationListLinkerObj : MonoBehaviour
 {
@@ -17,7 +19,7 @@ public class LocationListLinkerObj : MonoBehaviour
     public Button CloseButton;
 
     private SocketLinkerObj SocketLinkerObj;
-    CarStatusUIObj CarStatusUIObj;
+    private CarStatusUIObj CarStatusUIObj;
 
     void Start()
     {
@@ -30,6 +32,18 @@ public class LocationListLinkerObj : MonoBehaviour
         SetCurrentPositionButton.onClick.AddListener(SetCurrentPosition);
         AddPositionButton.onClick.AddListener(AddPosition);
         CloseButton.onClick.AddListener(Close);
+    }
+
+    private void Update()
+    {
+        if (Name.text == "" || Latitude.text == "" || Longitude.text == "")
+        {
+            AddPositionButton.interactable = false;
+        }
+        else
+        {
+            AddPositionButton.interactable = true;
+        }
     }
 
     private void BackToCam()
@@ -54,7 +68,9 @@ public class LocationListLinkerObj : MonoBehaviour
 
     private void AddPosition()
     {
-
+        GPSPosition gPSPosition = new GPSPosition(Name.text, float.Parse(Latitude.text), float.Parse(Longitude.text));
+        SocketLinkerObj.clientSender.SendPacket(new CarGPSSpotStatusChangeReqPacket(GPSSpotManagerChangeType.AddSpot, gPSPosition));
+        AddPosPanel.SetActive(false);
     }
 
     private void Close()

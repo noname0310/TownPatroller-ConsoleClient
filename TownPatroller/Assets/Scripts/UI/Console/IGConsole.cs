@@ -11,13 +11,14 @@ public class IGConsole : MonoBehaviour
         Instance = this;
     }
 
-    public void Init(GameObject UILinker)
+    public void Init(InGameConsole MainConsole)
     {
-        Main = UILinker.GetComponent<InGameConsole>();
+        Main = MainConsole;
     }
 
     public void println(string msg)
     {
-        Main.println(msg);
+        if (ViewChanger.Instance.Console.activeSelf)
+            Main.println(msg);
     }
 }

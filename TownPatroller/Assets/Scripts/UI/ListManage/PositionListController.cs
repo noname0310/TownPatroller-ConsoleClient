@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using TPPacket.Class;
 
 namespace TownPatroller.UI.ListManage
@@ -19,7 +14,7 @@ namespace TownPatroller.UI.ListManage
             {
                 GameObject go = AddItemAt(i);
                 go.GetComponent<PosItemLinkerObj>().Name.text = gPSSpotManager.GPSPositions[i].LocationName;
-                go.GetComponent<PosItemLinkerObj>().SetDisplayPosition(gPSSpotManager.GPSPositions[i]);
+                go.GetComponent<PosItemLinkerObj>().SetDisplayPosition(i, gPSSpotManager.GPSPositions[i]);
                 if (i == gPSSpotManager.CurrentMovePosIndex)
                     go.GetComponent<PosItemLinkerObj>().HighLight.SetActive(true);
             }

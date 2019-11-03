@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TownPatroller.UI.ListManage;
+using TownPatroller.Console;
 using TPPacket.Packet;
 
 public class CoreLinkerObj : MonoBehaviour
@@ -8,14 +10,21 @@ public class CoreLinkerObj : MonoBehaviour
     List<ClientItemLinkerObj> clientItemLinkerObjs;
     List<PosItemLinkerObj> posItemLinkerObjs;
 
+    [HideInInspector]
     public ClientsListController ClientsListController;
+    [HideInInspector]
     public PositionListController PositionListController;
+    [HideInInspector]
+    public ConsoleTextManager ConsoleTextManager;
 
     public GameObject ClientsContentObj;
     public GameObject PositionsContentObj;
+    public GameObject ConsoleContentObj;
+    public GameObject ConsoleScrollView;
 
     public GameObject ClientItemPrefab;
     public GameObject PositionItemPrefab;
+    public Text ConsoleTextPrefab;
 
     public SocketLinkerObj SocketLinker;
 
@@ -30,11 +39,7 @@ public class CoreLinkerObj : MonoBehaviour
         PositionListController = gameObject.AddComponent<PositionListController>();
         PositionListController.New(PositionsContentObj, PositionItemPrefab);
 
-        TPPacket.Class.GPSSpotManager gPSSpotManager = new TPPacket.Class.GPSSpotManager(0);
-        gPSSpotManager.AddPos(new TPPacket.Class.GPSPosition("djskda", -100, 100));
-        gPSSpotManager.AddPos(new TPPacket.Class.GPSPosition("sadsakd", 1221, 312));
-
-        PositionListController.RanderList(gPSSpotManager);
+        ConsoleTextManager = new ConsoleTextManager(ConsoleScrollView, ConsoleContentObj, ConsoleTextPrefab, this);
     }
 
     public void RegisterObj(ClientItemLinkerObj clientItemLinkerObj)
@@ -62,5 +67,6 @@ public class CoreLinkerObj : MonoBehaviour
 
     public void OnPosDeleteButtonEvent(PosItemLinkerObj posItemLinkerObj)
     {
+        SocketLinker.clientSender.SendPacket(new CarGPSSpotStatusChangeReqPacket(GPSSpotManagerChangeType.RemoveSpot, posItemLinkerObj.Index));
     }
 }

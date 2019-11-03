@@ -24,6 +24,7 @@ public class CarStatusUIObj : MonoBehaviour
     public GameObject Compass;
 
     public Text DriveMode;
+    public Text DrivingLocation;
 
     public CarDevice CarDevice;
 

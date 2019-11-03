@@ -204,6 +204,21 @@ namespace TownPatroller.UI
             }
         }
 
+        public GPSSpotManager gPSSpotManager
+        {
+            get
+            {
+                return GPSSpotManager;
+            }
+            set
+            {
+                GPSSpotManager = value;
+
+                GPSSpotManagerUpdate();
+            }
+        }
+
+
         private ushort F_sonardist;
         private ushort RH_sonardist;
         private ushort LH_sonardist;
@@ -220,6 +235,7 @@ namespace TownPatroller.UI
         private GPSPosition GPSPosition;
         private float Rotation;
         private ModeType ModeType;
+        private GPSSpotManager GPSSpotManager;
 
 
         public CarDevice(CarStatusUIObj carStatusUIObj)
@@ -227,6 +243,17 @@ namespace TownPatroller.UI
             CarStatusUIObj = carStatusUIObj;
             InitStatusNum();
         }
+
+        public void GPSSpotManagerUpdate()
+        {
+            CarStatusUIObj.GetComponent<CoreLinkerObj>().PositionListController.RanderList(GPSSpotManager);
+
+            if (GPSSpotManager.GPSPositions.Count > 0)
+                CarStatusUIObj.DrivingLocation.text = "goto: " + GPSSpotManager.GPSPositions[GPSSpotManager.CurrentMovePosIndex].LocationName;
+            else
+                CarStatusUIObj.DrivingLocation.text = "N/A";
+        }
+
         private void InitStatusNum()
         {
             for (int i = 0; i < 1001; i++)

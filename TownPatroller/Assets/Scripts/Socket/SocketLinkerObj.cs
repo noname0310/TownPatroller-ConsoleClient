@@ -9,7 +9,7 @@ public class SocketLinkerObj : MonoBehaviour
 {
     public GameObject CoreLinker;
 
-    private Cardevice cardevice;
+    private CarStatusUIObj carStatusUIObj;
     public RawImage camtexture;
 
     public SocketObj socketObj;
@@ -23,6 +23,8 @@ public class SocketLinkerObj : MonoBehaviour
 
         clientSender = socketObj.socketClient;
         socketObj.OnDataInvoke += SocketObj_OnDataInvoke;
+
+        carStatusUIObj = CoreLinker.GetComponent<CarStatusUIObj>();
     }
 
     private void OnDestroy()
@@ -34,6 +36,7 @@ public class SocketLinkerObj : MonoBehaviour
 
     private void SocketObj_OnDataInvoke(BasePacket basePacket)
     {
+        IGConsole.Instance.println(basePacket.packetType.ToString() + " Packet Received");
         switch (basePacket.packetType)
         {
             case PacketType.CamFrame:
@@ -49,16 +52,35 @@ public class SocketLinkerObj : MonoBehaviour
                 break;
             case PacketType.CarStatus:
                 CarStatusPacket csp = (CarStatusPacket)basePacket;
-                CoreLinker.GetComponent<CarStatusUIObj>().CarDevice.SetStatus(csp.cardevice, csp.position, csp.rotation);
+                carStatusUIObj.CarDevice.SetStatus(csp.cardevice, csp.position, csp.rotation);
                 clientSender.SendPacket(new CarStatusRecivedPacket());
                 break;
             case PacketType.CarGPSSpotStatus:
-                break;
-            case PacketType.CarGPSSpotStatusChanged:
+                CarGPSSpotStatusPacket cgpssp = (CarGPSSpotStatusPacket)basePacket;
+                switch (cgpssp.GPSSpotManagerChangeType)
+                {
+                    case GPSSpotManagerChangeType.AddSpot:
+                        carStatusUIObj.CarDevice.gPSSpotManager.AddPos(cgpssp.GPSPosition);
+                        carStatusUIObj.CarDevice.GPSSpotManagerUpdate();
+                        break;
+                    case GPSSpotManagerChangeType.RemoveSpot:
+                        carStatusUIObj.CarDevice.gPSSpotManager.RemovePos(cgpssp.Index);
+                        carStatusUIObj.CarDevice.GPSSpotManagerUpdate();
+                        break;
+                    case GPSSpotManagerChangeType.SetCurrentPos:
+                        carStatusUIObj.CarDevice.gPSSpotManager.CurrentMovePosIndex = cgpssp.Index;
+                        carStatusUIObj.CarDevice.GPSSpotManagerUpdate();
+                        break;
+                    case GPSSpotManagerChangeType.OverWrite:
+                        carStatusUIObj.CarDevice.gPSSpotManager = cgpssp.GPSMover;
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case PacketType.UpdateDataChanged:
                 DataUpdatedPacket dup = (DataUpdatedPacket)basePacket;
-                CoreLinker.GetComponent<CarStatusUIObj>().CarDevice.modeType = dup.modeType;
+                carStatusUIObj.CarDevice.modeType = dup.modeType;
                 break;
             case PacketType.UpdateConsoleModeChanged:
                 ConsoleUpdatedPacket cudp = (ConsoleUpdatedPacket)basePacket;

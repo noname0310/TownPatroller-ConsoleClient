@@ -11,17 +11,20 @@ public class PosItemLinkerObj : MonoBehaviour
     public GameObject HighLight;
     public Button DeleteButton;
 
+    [HideInInspector]
+    public int Index { get; private set; }
+
     private CoreLinkerObj linkerObj;
 
     void Start()
     {
-        HighLight.SetActive(false);
         linkerObj = GameObject.Find("UILinkManager").GetComponent<CoreLinkerObj>();
         linkerObj.RegisterObj(this);
     }
 
-    public void SetDisplayPosition(GPSPosition gPSPosition)
+    public void SetDisplayPosition(int index, GPSPosition gPSPosition)
     {
+        Index = index;
         Position.text = "Lat : " + gPSPosition.latitude + ", Long : " + gPSPosition.longitude;
     }
 }

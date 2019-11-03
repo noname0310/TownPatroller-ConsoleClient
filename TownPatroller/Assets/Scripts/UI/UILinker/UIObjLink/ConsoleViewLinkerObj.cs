@@ -3,60 +3,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TPPacket.Packet;
+using TPPacket.Class;
 
 public class ConsoleViewLinkerObj : MonoBehaviour
 {
-    public Button BackToList;
-    public Button EditAutoDrive;
+    public Button BackToListButton;
+    public Button EditAutoDriveButton;
 
-    public Button SwitchDriveMode;
-    public Button AddCurrentPosition;
+    public Button SwitchDriveModeButton;
+    public Button AddCurrentPositionButton;
+    public InputField PositionNameField;
 
-    public Button SwitchCam;
-    public Button HideUI;
+    public Button SwitchCamButton;
+    public Button HideUIButton;
 
     private SocketLinkerObj SocketLinkerObj;
+    private CarStatusUIObj CarStatusUIObj;
 
     void Start()
     {
         SocketLinkerObj = GameObject.Find("SocketManager").GetComponent<SocketLinkerObj>();
+        CarStatusUIObj = gameObject.GetComponent<CarStatusUIObj>();
 
-        BackToList.onClick.AddListener(BackToListE);
-        EditAutoDrive.onClick.AddListener(EditAutoDriveE);
+        BackToListButton.onClick.AddListener(BackToList);
+        EditAutoDriveButton.onClick.AddListener(EditAutoDrive);
 
-        SwitchDriveMode.onClick.AddListener(SwitchDriveModeE);
-        AddCurrentPosition.onClick.AddListener(AddCurrentPositionE);
+        SwitchDriveModeButton.onClick.AddListener(SwitchDriveMode);
+        AddCurrentPositionButton.onClick.AddListener(AddCurrentPosition);
 
-        SwitchCam.onClick.AddListener(SwitchCamE);
-        HideUI.onClick.AddListener(HideUIE);
+        SwitchCamButton.onClick.AddListener(SwitchCam);
+        HideUIButton.onClick.AddListener(HideUI);
     }
 
-    private void BackToListE()
+    private void Update()
+    {
+        if (PositionNameField.text == "")
+        {
+            AddCurrentPositionButton.interactable = false;
+        }
+        else
+        {
+            AddCurrentPositionButton.interactable = true;
+        }
+    }
+
+    private void BackToList()
     {
         SocketLinkerObj.clientSender.SendPacket(new ConsoleUpdatePacket(ConsoleMode.ViewBotList, 0));
     }
 
-    private void EditAutoDriveE()
+    private void EditAutoDrive()
     {
         ViewChanger.Instance.ChangeView(ViewChanger.ConsoleView.LocationList);
     }
 
-    private void SwitchDriveModeE()
+    private void SwitchDriveMode()
     {
         SocketLinkerObj.clientSender.SendPacket(new DataUpdatePacket(gameObject.GetComponent<CarStatusUIObj>().CarDevice.modeType.Next()));
     }
 
-    private void AddCurrentPositionE()
+    private void AddCurrentPosition()
     {
+        SocketLinkerObj.clientSender.SendPacket(new CarGPSSpotStatusChangeReqPacket(GPSSpotManagerChangeType.AddSpot, 
+            new GPSPosition(PositionNameField.text ,CarStatusUIObj.CarDevice.gPSPosition.latitude, CarStatusUIObj.CarDevice.gPSPosition.longitude)));
 
+        PositionNameField.text = "";
     }
 
-    private void SwitchCamE()
+    private void SwitchCam()
     {
         SocketLinkerObj.clientSender.SendPacket(new CamConfigPacket(CamaraConfigType.ChangeCamara, true));
     }
 
-    private void HideUIE()
+    private void HideUI()
     {
         throw new System.NotImplementedException();
     }
