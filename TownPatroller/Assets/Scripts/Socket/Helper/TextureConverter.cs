@@ -15,7 +15,7 @@ namespace TownPatroller.Socket.Helper
             int width, height;
             GetImageSize(imageData, out width, out height);
 
-            Texture2D texture = new Texture2D(width, height, TextureFormat.ARGB32, false, true);
+            Texture2D texture = new Texture2D(width, height, TextureFormat.RGB24, false, true);
 
             texture.hideFlags = HideFlags.HideAndDontSave;
             texture.filterMode = FilterMode.Point;

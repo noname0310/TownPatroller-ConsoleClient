@@ -21,6 +21,13 @@ public class ClientItemLinkerObj : MonoBehaviour
 
     public void SetDisplayGPSLocation(GPSPosition gPSPosition)
     {
+        if (gPSPosition == null)
+        {
+            TextLocation.text = "N/A";
+            GPSLocation.text = "0, 0";
+            return;
+        }
+
         TextLocation.text = gPSPosition.LocationName;
         GPSLocation.text = gPSPosition.latitude + ", " + gPSPosition.longitude;
     }

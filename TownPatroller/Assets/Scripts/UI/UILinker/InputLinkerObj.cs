@@ -22,6 +22,83 @@ public class InputLinkerObj : MonoBehaviour
     }
     void Update()
     {
+        if (ReadyToCommand)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                PressingKey = 'q';
+                ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LF, !CarStatusUIObj.CarDevice.lf_LED);
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                PressingKey = 'e';
+                ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.RF, !CarStatusUIObj.CarDevice.rf_LED);
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+            else if (Input.GetKeyDown(KeyCode.Z))
+            {
+                PressingKey = 'z';
+                ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LB, !CarStatusUIObj.CarDevice.lb_LED);
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+            else if (Input.GetKeyDown(KeyCode.C))
+            {
+                PressingKey = 'c';
+                ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.RB, !CarStatusUIObj.CarDevice.rb_LED);
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                PressingKey = 'r';
+                ReqCarDevice reqCarDevice;
+                if (CarStatusUIObj.CarDevice.lf_LED || CarStatusUIObj.CarDevice.rf_LED)
+                {
+                    reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LF, false, ReqCarDevice.ledType.RF, false);
+                }
+                else
+                {
+                    reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LF, true, ReqCarDevice.ledType.RF, true);
+                }
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+            else if (Input.GetKeyDown(KeyCode.V))
+            {
+                PressingKey = 'v';
+                ReqCarDevice reqCarDevice;
+                if (CarStatusUIObj.CarDevice.lb_LED || CarStatusUIObj.CarDevice.rb_LED)
+                {
+                    reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LB, false, ReqCarDevice.ledType.RB, false);
+                }
+                else
+                {
+                    reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LB, true, ReqCarDevice.ledType.RB, true);
+                }
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+            else if (Input.GetKeyDown(KeyCode.F))
+            {
+                PressingKey = 'f';
+                ReqCarDevice reqCarDevice;
+                if (CarStatusUIObj.CarDevice.lf_LED || CarStatusUIObj.CarDevice.rf_LED || CarStatusUIObj.CarDevice.lb_LED || CarStatusUIObj.CarDevice.rb_LED)
+                {
+                    reqCarDevice = new ReqCarDevice(false, false, false, false);
+                }
+                else
+                {
+                    reqCarDevice = new ReqCarDevice(true, true, true, true);
+                }
+                SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
+                StartCoroutine(KeyCoolDown());
+            }
+        }
+
         if (CarStatusUIObj.CarDevice.modeType == ModeType.ManualDriveMode || CarStatusUIObj.CarDevice.modeType == ModeType.HaifManualDriveMode)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -73,94 +150,6 @@ public class InputLinkerObj : MonoBehaviour
                     SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
                     StartCoroutine(KeyCoolDown());
                 }
-
-                else if (Input.GetKeyDown(KeyCode.Q))
-                {
-                    if (PressingKey == 'q')
-                        return;
-                    PressingKey = 'q';
-                    ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LF, !CarStatusUIObj.CarDevice.lf_LED);
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
-                else if (Input.GetKeyDown(KeyCode.E))
-                {
-                    if (PressingKey == 'e')
-                        return;
-                    PressingKey = 'e';
-                    ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.RF, !CarStatusUIObj.CarDevice.rf_LED);
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
-                else if (Input.GetKeyDown(KeyCode.Z))
-                {
-                    if (PressingKey == 'z')
-                        return;
-                    PressingKey = 'z';
-                    ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LB, !CarStatusUIObj.CarDevice.lb_LED);
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
-                else if (Input.GetKeyDown(KeyCode.C))
-                {
-                    if (PressingKey == 'c')
-                        return;
-                    PressingKey = 'c';
-                    ReqCarDevice reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.RB, !CarStatusUIObj.CarDevice.rb_LED);
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
-                else if (Input.GetKeyDown(KeyCode.R))
-                {
-                    if (PressingKey == 'r')
-                        return;
-                    PressingKey = 'r';
-                    ReqCarDevice reqCarDevice;
-                    if (CarStatusUIObj.CarDevice.lf_LED || CarStatusUIObj.CarDevice.rf_LED)
-                    {
-                        reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LF, false, ReqCarDevice.ledType.RF, false);
-                    }
-                    else
-                    {
-                        reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LF, false, ReqCarDevice.ledType.RF, false);
-                    }
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
-                else if (Input.GetKeyDown(KeyCode.V))
-                {
-                    if (PressingKey == 'v')
-                        return;
-                    PressingKey = 'v';
-                    ReqCarDevice reqCarDevice;
-                    if (CarStatusUIObj.CarDevice.lb_LED || CarStatusUIObj.CarDevice.rb_LED)
-                    {
-                        reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LB, false, ReqCarDevice.ledType.RB, false);
-                    }
-                    else
-                    {
-                        reqCarDevice = new ReqCarDevice(ReqCarDevice.ledType.LB, true, ReqCarDevice.ledType.RB, true);
-                    }
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
-                else if (Input.GetKeyDown(KeyCode.F))
-                {
-                    if (PressingKey == 'f')
-                        return;
-                    PressingKey = 'f';
-                    ReqCarDevice reqCarDevice;
-                    if (CarStatusUIObj.CarDevice.lf_LED || CarStatusUIObj.CarDevice.rf_LED || CarStatusUIObj.CarDevice.lb_LED || CarStatusUIObj.CarDevice.rb_LED)
-                    {
-                        reqCarDevice = new ReqCarDevice(false, false, false, false);
-                    }
-                    else
-                    {
-                        reqCarDevice = new ReqCarDevice(true, true, true, true);
-                    }
-                    SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
-                    StartCoroutine(KeyCoolDown());
-                }
             }
         }
     }
@@ -168,7 +157,7 @@ public class InputLinkerObj : MonoBehaviour
     private IEnumerator KeyCoolDown()
     {
         ReadyToCommand = false;
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         ReadyToCommand = true;
     }
 }

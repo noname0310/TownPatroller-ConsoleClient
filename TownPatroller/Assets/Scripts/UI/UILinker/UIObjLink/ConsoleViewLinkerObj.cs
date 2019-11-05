@@ -17,6 +17,9 @@ public class ConsoleViewLinkerObj : MonoBehaviour
     public Button SwitchCamButton;
     public Button HideUIButton;
 
+    public Button ResUpButton;
+    public Button ResDownButton;
+
     private SocketLinkerObj SocketLinkerObj;
     private CarStatusUIObj CarStatusUIObj;
 
@@ -33,6 +36,9 @@ public class ConsoleViewLinkerObj : MonoBehaviour
 
         SwitchCamButton.onClick.AddListener(SwitchCam);
         HideUIButton.onClick.AddListener(HideUI);
+
+        ResUpButton.onClick.AddListener(ResolutionUp);
+        ResDownButton.onClick.AddListener(ResolutionDown);
     }
 
     private void Update()
@@ -78,5 +84,15 @@ public class ConsoleViewLinkerObj : MonoBehaviour
     private void HideUI()
     {
         throw new System.NotImplementedException();
+    }
+
+    private void ResolutionUp()
+    {
+        SocketLinkerObj.clientSender.SendPacket(new CamResolutionReqPacket(CarStatusUIObj.CarDevice.camResolution - 1));
+    }
+
+    private void ResolutionDown()
+    {
+        SocketLinkerObj.clientSender.SendPacket(new CamResolutionReqPacket(CarStatusUIObj.CarDevice.camResolution + 1));
     }
 }

@@ -26,6 +26,8 @@ public class CarStatusUIObj : MonoBehaviour
     public Text DriveMode;
     public Text DrivingLocation;
 
+    public Text CamResolution;
+
     public CarDevice CarDevice;
 
     void Start()

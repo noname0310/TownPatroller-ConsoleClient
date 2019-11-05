@@ -218,6 +218,19 @@ namespace TownPatroller.UI
             }
         }
 
+        public int camResolution
+        {
+            get
+            {
+                return CamResolution;
+            }
+            set
+            {
+                CamResolution = value;
+                CarStatusUIObj.CamResolution.text = "1/" + value;
+            }
+        }
+
 
         private ushort F_sonardist;
         private ushort RH_sonardist;
@@ -236,6 +249,7 @@ namespace TownPatroller.UI
         private float Rotation;
         private ModeType ModeType;
         private GPSSpotManager GPSSpotManager;
+        private int CamResolution;
 
 
         public CarDevice(CarStatusUIObj carStatusUIObj)
