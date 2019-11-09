@@ -1,18 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TPPacket.Packet;
 using TPPacket.Class;
 
 public class InputLinkerObj : MonoBehaviour
 {
+    public InputField PositionNameField;
+
     private SocketLinkerObj SocketLinkerObj;
+    private CarStatusUIObj CarStatusUIObj;
 
-    CarStatusUIObj CarStatusUIObj;
-    bool ReadyToCommand;
-
-    char PressingKey;
-
+    private bool ReadyToCommand;
+    private char PressingKey;
+     
     void Start()
     {
         SocketLinkerObj = GameObject.Find("SocketManager").GetComponent<SocketLinkerObj>();
@@ -22,6 +24,11 @@ public class InputLinkerObj : MonoBehaviour
     }
     void Update()
     {
+        if (PositionNameField.isFocused)
+            return;
+        if (ViewChanger.Instance.Console.activeSelf != true)
+            return;
+
         if (ReadyToCommand)
         {
             if (Input.GetKeyDown(KeyCode.Q))
