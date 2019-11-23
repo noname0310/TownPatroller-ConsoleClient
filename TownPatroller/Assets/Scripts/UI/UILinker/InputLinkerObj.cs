@@ -111,7 +111,7 @@ public class InputLinkerObj : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 PressingKey = 'S';
-                ReqCarDevice reqCarDevice = new ReqCarDevice(0, 0, true, true);
+                ReqCarDevice reqCarDevice = new ReqCarDevice(0, 0);
                 SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
                 StartCoroutine(KeyCoolDown());
             }
@@ -132,7 +132,6 @@ public class InputLinkerObj : MonoBehaviour
                     if (PressingKey == 'a')
                         return;
                     PressingKey = 'a';
-                    Cardevice cardevice = CarStatusUIObj.CarDevice.GetPacketCarDivice();
                     ReqCarDevice reqCarDevice = new ReqCarDevice(255, 255, false, true);
                     SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
                     StartCoroutine(KeyCoolDown());
@@ -142,7 +141,6 @@ public class InputLinkerObj : MonoBehaviour
                     if (PressingKey == 's')
                         return;
                     PressingKey = 's';
-                    Cardevice cardevice = CarStatusUIObj.CarDevice.GetPacketCarDivice();
                     ReqCarDevice reqCarDevice = new ReqCarDevice(255, 255, false, false);
                     SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
                     StartCoroutine(KeyCoolDown());
@@ -152,7 +150,6 @@ public class InputLinkerObj : MonoBehaviour
                     if (PressingKey == 'd')
                         return;
                     PressingKey = 'd';
-                    Cardevice cardevice = CarStatusUIObj.CarDevice.GetPacketCarDivice();
                     ReqCarDevice reqCarDevice = new ReqCarDevice(255, 255, true, false);
                     SocketLinkerObj.clientSender.SendPacket(new CarStatusChangeReqPacket(reqCarDevice));
                     StartCoroutine(KeyCoolDown());
